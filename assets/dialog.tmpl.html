@@ -1,0 +1,21 @@
+<md-dialog aria-label="Dialog" layout-fill="" style="background-color: black">
+
+   <!-- <img src="/images/toc.gif" width="256" style="width: 100%"/>
+-->
+
+<section layout-padding="">
+   <div layout="row" layout-align="center" layout-wrap>
+
+      <md-button ng-click="cancel()" class="md-fab md-fab-top-right md-warn md-raised" aria-label="close" style="position: fixed !important;">
+         <md-icon style="color: white">close</md-icon>
+      </md-button>
+
+      <md-card class="box" flex-xs="30" flex-sm="30" flex-md="20" flex-lg="15" flex-xl="10" ng-repeat="preVideo in preVideos" ng-click="playPre(preVideo)">
+         <img data-ng-src="{{preVideo.img}}">
+      </md-card>
+   </div>
+
+</section>
+
+
+</md-dialog>
