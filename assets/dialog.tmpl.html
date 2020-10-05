@@ -3,16 +3,24 @@
    <!-- <img src="/images/toc.gif" width="256" style="width: 100%"/>
 -->
 
-<section layout-padding="">
+<section>
    <div layout="row" layout-align="center" layout-wrap>
+       <md-toolbar>
+           <div class="md-toolbar-tools">
+               <h2 flex md-truncate>Favourites</h2>
+               <md-switch ng-model="deleteEnabled">Remove</md-switch>
+               <md-button ng-click="cancel()" class="md-fab md-mini md-warn" aria-label="close">
+                   X
+               </md-button>
+           </div>
+       </md-toolbar>
 
-      <md-button ng-click="cancel()" class="md-fab md-fab-top-right md-warn md-raised" aria-label="close" style="position: fixed !important;">
-         <md-icon style="color: white">close</md-icon>
-      </md-button>
 
-      <md-card class="box" flex-xs="30" flex-sm="30" flex-md="20" flex-lg="15" flex-xl="10" ng-repeat="preVideo in preVideos" ng-click="playPre(preVideo)">
-         <img data-ng-src="{{preVideo.img}}">
-      </md-card>
+           <md-card class="box" flex-xs="30" flex-sm="30" flex-md="20" flex-lg="15" flex-xl="10" ng-repeat="preVideo in favourites">
+               <img data-ng-src="{{preVideo.img}}" ng-click="playPre(preVideo)">
+               <md-button ng-click="deleteFavourite(preVideo)" ng-if="deleteEnabled" class="md-raised md-warn"><md-icon>delete</md-icon></md-button>
+           </md-card>
+
    </div>
 
 </section>

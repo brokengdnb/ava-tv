@@ -21,7 +21,8 @@ socket.on('getData', function(data) {
     socket.emit('sync host', {});
 });
 // Calls sync
-socket.on('syncHost', function(data) {
+
+socket.on('syncHost', function(datas) {
     syncVideo(roomnum)
 });
 
@@ -39,10 +40,10 @@ function changeHost(roomnum) {
 }
 // Change the host label
 socket.on('changeHostLabel', function(data) {
-    var user = data.username
+    var user = data.username;
     // Change label
-    var hostlabel = document.getElementById('hostlabel')
-    hostlabel.innerHTML = "<i class=\"fas fa-user\"></i>" + user
+    var hostlabel = document.getElementById('hostlabel');
+    hostlabel.innerHTML = user
 
     // Generate notify alert
     // CANNOT CALL IT HERE

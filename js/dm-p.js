@@ -20,8 +20,8 @@ setTimeout(function() {
     dailyPlayer.addEventListener('apiready', function(e) {
         console.log('api ready', e);
         // When api is ready
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('userFormArea').style.backgroundImage = "url('/img/splash.gif')";
+        //document.getElementById('loading').style.display = 'none';
+        //document.getElementById('userFormArea').style.backgroundImage = "url('/img/splash.gif')";
 
     });
 

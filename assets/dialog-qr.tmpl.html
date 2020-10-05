@@ -1,0 +1,24 @@
+<md-dialog aria-label="Dialog" style="background-color: rgba(250,250,250,0.5); overflow: hidden;">
+
+   <!-- <img src="/images/toc.gif" width="256" style="width: 100%"/>
+-->
+
+<section layout-padding="" md-whiteframe="10">
+
+
+      <!--md-button ng-click="cancel()" class="md-fab md-fab-top-right md-warn md-raised" aria-label="close" style="position: fixed !important;margin-right: -30px; margin-top: -30px">
+         <md-icon style="color: white">close</md-icon>
+      </md-button>-->
+
+      <md-card md-whiteframe="10" layout="column" layout-align="center" ng-if="showQRDialog">
+
+          <md-button ng-click="openHomeNewTab()" class="md-raised" style="margin:  0 0 8px 0">New</md-button>
+          <qr size="200" text="QRurl" image="true" input-mode="QRurl"></qr>
+          <md-button ng-click="openInNewTab()" class="md-primary md-raised" style="margin: 8px 0 0 0;text-transform: none;">Room {{room}}</md-button>
+      </md-card>
+
+
+</section>
+
+
+</md-dialog>

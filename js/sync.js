@@ -10,15 +10,24 @@ function playVideo(roomnum) {
     //io.sockets.in("room-"+roomnum).emit('playVideoClient');
 }
 
+
+
 function stopVideo(roomnum) {
     // dailyPlayer.play();
     //vimeoPlayer.play()
+    var el = document.getElementById("playerOpacity");
+    el.style.opacity = 1;
 
-    var video = document.getElementById("html5src");
-    video.currentTime = video.duration;
-    video.play();
-    video.pause();
-    syncVideo(roomnum);
+    setTimeout(function () {
+        var video = document.getElementById("html5src");
+        video.currentTime = video.duration;
+        video.play();
+        video.pause();
+        syncVideo(roomnum);
+        el.classList.add("show");
+        el.style.opacity = 0;
+    }, 3000)
+
     // Doesn't work well unless called in server
     //io.sockets.in("room-"+roomnum).emit('playVideoClient');
 }
@@ -37,7 +46,7 @@ function syncVideo(roomnum) {
         case 0:
             currTime = player.getCurrentTime();
             state = playerStatus
-            console.log("I am host and my current time is " + currTime + state)
+            //console.log("I am host and my current time is " + currTime + state)
             break;
         case 1:
             currTime = dailyPlayer.currentTime;
@@ -52,7 +61,7 @@ function syncVideo(roomnum) {
                 vimeoPlayer.getPaused().then(function(paused) {
                     // paused = whether or not the player is paused
                     state = paused
-                    console.log("state=" + state)
+                    //console.log("state=" + state)
                     socket.emit('sync video', {
                         room: roomnum,
                         time: currTime,
@@ -61,12 +70,12 @@ function syncVideo(roomnum) {
                     });
                 }).catch(function(error) {
                     // an error occurred
-                    console.log("Error: Could not retrieve Vimeo Player state")
+                    //console.log("Error: Could not retrieve Vimeo Player state")
                 });
 
             }).catch(function(error) {
                 // an error occurred
-                console.log("Error: Could not retrieve Vimeo player current time")
+                //console.log("Error: Could not retrieve Vimeo player current time")
             });
             break;
         case 3:
@@ -74,7 +83,7 @@ function syncVideo(roomnum) {
             state = media.paused;
             break;
         default:
-            console.log("Error invalid player id")
+            //console.log("Error invalid player id")
     }
 
     // Required due to vimeo asyncronous functionality
@@ -133,7 +142,7 @@ function seekTo(time) {
                 switch (error.name) {
                     case 'RangeError':
                         // the time was less than 0 or greater than the video’s duration
-                        console.log("the time was less than 0 or greater than the video’s duration")
+                        //console.log("the time was less than 0 or greater than the video’s duration")
                         break;
                     default:
                         // some other error occurred
@@ -178,7 +187,7 @@ function idParse(videoId) {
 
                 var match = myRegex.exec(videoId)
                 if (match != null) {
-                    console.log("You entered a link, but you really meant " + match[1])
+                    //console.log("You entered a link, but you really meant " + match[1])
                     return match[1]
                 }
                 videoId = "invalid"
@@ -187,7 +196,7 @@ function idParse(videoId) {
                 var myRegex = /.+\/(.+)/g
                 var match = myRegex.exec(videoId)
                 if (match != null) {
-                    console.log("You entered a link, but you really meant " + match[1])
+                    //console.log("You entered a link, but you really meant " + match[1])
                     return match[1]
                 }
                 videoId = "invalid"
@@ -282,8 +291,7 @@ function changeVideo(roomnum, rawId) {
     var videoId = idParse(rawId)
 
     if (videoId != "invalid") {
-        var time = getTime()
-        console.log("The time is this man: " + time)
+        var time = getTime();
         // Actually change the video!
         socket.emit('change video', {
             room: roomnum,
@@ -383,7 +391,7 @@ function loveLive(roomnum) {
 
 // This just calls the sync host function in the server
 socket.on('getData', function(data) {
-    console.log("Hi im the host, you called?")
+    //console.log("Hi im the host, you called?")
     socket.emit('sync host', {});
     //socket.emit('change video', { time: time });
 });
@@ -464,9 +472,9 @@ socket.on('syncVideoClient', function(data) {
     var state = data.state
     var videoId = data.videoId
     var playerId = data.playerId
-    console.log("current time is: " + currTime)
-    console.log("curr vid id: " + id + " " + videoId)
-    console.log("state" + state)
+    //console.log("current time is: " + currTime)
+    //console.log("curr vid id: " + id + " " + videoId)
+    //console.log("state" + state)
 
     // There should no longer be any need to sync a video change
     // Video should always be the same
@@ -500,7 +508,7 @@ socket.on('syncVideoClient', function(data) {
                 // IF parent player was paused
                 // If state is -1 (unstarted) the video will still start as intended
                 if (state == 2) {
-                    console.log("paused?")
+                    //console.log("paused?")
                     player.pauseVideo();
                 }
                 // If not paused
@@ -516,7 +524,7 @@ socket.on('syncVideoClient', function(data) {
                     dailyPlayer.seek(currTime);
                 }
                 if (state) {
-                    console.log("i pausing!")
+                    //console.log("i pausing!")
                     dailyPlayer.pause()
                 } else {
                     dailyPlayer.play()
@@ -575,7 +583,7 @@ socket.on('syncVideoClient', function(data) {
 // Change video
 socket.on('changeVideoClient', function(data) {
     var videoId = data.videoId;
-    console.log("video id is: " + videoId)
+    //console.log("video id is: " + videoId)
 
     // Pause right before changing
     // pauseOther(roomnum)
@@ -584,7 +592,7 @@ socket.on('changeVideoClient', function(data) {
     // The original change video call updates the value for the room
     // This probably is more inefficient than just passing in the parameter but is safer?
     socket.emit('get video', function(id) {
-        console.log("it really is " + id)
+        //console.log("it really is " + id)
         videoId = id
         // This changes the video
         id = videoId
@@ -632,7 +640,7 @@ socket.on('changeVideoClient', function(data) {
 
     // Auto sync with host after 1000ms of changing video
     setTimeout(function() {
-        console.log("resyncing with host after video change")
+        //console.log("resyncing with host after video change")
         socket.emit('sync host', {});
     }, 1000);
 

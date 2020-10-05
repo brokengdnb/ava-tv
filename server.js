@@ -45,6 +45,11 @@ app.get('/localIP', function(req, res) {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({ local: ipAddress }));
         res.end();
+    }, function(err) {
+        res.status(200);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({ local: 'localhost' }));
+        res.end();
     });
 });
 
@@ -85,6 +90,17 @@ io.on('connection', function(socket) {
 
 var roomno = 1;
 
+
+var io2 = require("socket.io")({
+    transports  : [ 'websocket' ]
+}).listen(8000);
+
+
+
+
+
+
+
 io.sockets.on('connection', function(socket) {
     // Connect Socket
     connections.push(socket);
@@ -93,7 +109,16 @@ io.sockets.on('connection', function(socket) {
     // Set default room, if provided in url
     socket.emit('set id', {
         id: given_room
-    })
+    });
+
+    io2.sockets.on('connection', function(socket2) {
+        socket2.on('slider', function (level) {
+            console.log(level);
+            socket.emit('level', {
+                level: level
+            });
+        });
+    });
 
     // io.sockets.emit('broadcast',{ description: connections.length + ' clients connected!'});
 
@@ -167,8 +192,8 @@ io.sockets.on('connection', function(socket) {
         // This stores the room data for all sockets
         userrooms[socket.id] = data
 
-        var host = null
-        var init = false
+        let host = null
+        let init = false
 
         // Sets default room value to 1
         if (socket.roomnum == null || socket.roomnum == "") {
@@ -229,7 +254,7 @@ io.sockets.on('connection', function(socket) {
                     time: 0
                 },
                 html5: {
-                    id: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                    id: '/pd.mp4',
                     time: 0
                 }
             }
@@ -413,11 +438,11 @@ io.sockets.on('connection', function(socket) {
     // Sync video
     socket.on('sync video', function(data) {
         if (io.sockets.adapter.rooms['room-' + socket.roomnum] !== undefined) {
-            var roomnum = data.room
-            var currTime = data.time
-            var state = data.state
-            var videoId = data.videoId
-            var playerId = 3
+            let roomnum = data.room
+            let currTime = data.time
+            let state = data.state
+            let videoId = data.videoId
+            let playerId = 3
             // var videoId = io.sockets.adapter.rooms['room-'+roomnum].currVideo
             io.sockets.in("room-" + roomnum).emit('syncVideoClient', {
                 time: currTime,
@@ -828,9 +853,9 @@ io.sockets.on('connection', function(socket) {
     socket.on('change host', function(data) {
         if (io.sockets.adapter.rooms['room-' + socket.roomnum] !== undefined) {
             console.log(io.sockets.adapter.rooms['room-' + socket.roomnum])
-            var roomnum = data.room
-            var newHost = socket.id
-            var currHost = io.sockets.adapter.rooms['room-' + socket.roomnum].host
+            let roomnum = data.room
+            let newHost = socket.id
+            let currHost = io.sockets.adapter.rooms['room-' + socket.roomnum].host
 
             // If socket is already the host!
             if (newHost != currHost) {
@@ -856,7 +881,11 @@ io.sockets.on('connection', function(socket) {
                 })
             }
         }
-    })
+    });
+
+    socket.on('slider', function(data){
+       console.log(data);
+    });
 
     // Get host data
     socket.on('get host data', function(data) {

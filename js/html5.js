@@ -10,7 +10,8 @@
 //     }
 // }
 
-var media = document.querySelector('video');
+var media = document.getElementById('html5src');
+var media2 = document.getElementById('html5src2');
 
 // Event listeners
 media.addEventListener("play", function(e) {
@@ -45,4 +46,5 @@ function html5Play() {
 function htmlLoadVideo(videoId) {
     console.log("changing video to: " + videoId)
     media.src = videoId
+    media.play();
 }

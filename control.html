@@ -4,38 +4,34 @@
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <meta name="description" content="">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="apple-touch-startup-image" href="/img/logo.png">
-    <link rel="apple-touch-startup-image" href="/img/img01.png"/>
     <meta name="apple-mobile-web-app-title" content="AVA Control">
     <link rel="apple-touch-icon" href="/img/logo.png">
 
     <title>AVA Control</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="css/angular-material.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/angular-material.min.css" rel="stylesheet">
+    <link href="assets/material-design-icons/iconfont/material-icons.css" rel="stylesheet">
 
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- Socket.io -->
-    <script src="/socket.io/socket.io.js"></script>
 
-    <!-- Font awesome -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <!-- Font awesome
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>-->
 
     <!-- Custom styles for this template -->
-    <link href="css/small-business.css" rel="stylesheet">
+    <link href="/css/small-business.css" rel="stylesheet">
+    <link href="/css/vis.css" rel="stylesheet">
 
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/mobile-style.css" rel="stylesheet">
-    <link href="css/html5player.css" rel="stylesheet">
-    <link href="css/style-control.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/mobile-style.css" rel="stylesheet">
+    <link href="/css/html5player.css" rel="stylesheet">
+    <link href="/css/style-control.css" rel="stylesheet">
 
 
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
@@ -50,87 +46,72 @@
 
 <body id="Home" ng-app="controlApp" layout-fill=""  style="overflow: hidden !important;">
 
-
-
 <div ng-controller="MainCtrl" layout="column" layout-fill="" ng-cloak style="overflow: hidden !important;">
-         <section layout="row" flex layout-fill="">
+         <div layout="row" flex layout-fill="">
 
             <md-sidenav
                     class="md-sidenav-left"
                     md-component-id="left"
                     md-whiteframe="4"
-                    style="min-width: 420px !important; background-color: rgba(0,0,0,1); height: 320px; overflow: hidden">
+                    style="background-color: rgba(0,0,0,1); height: 320px; overflow: hidden;min-height: 320px;">
 
 
-                <div layout="column">
-                    <div id='HTML5Area'>
-                        <div class="html5player">
-                            <video type="video/mp4" width="720" class="video html5video" id="html5src" controls style="width: 100%;height: 240px">
-                                <!-- <source src="nl.mp4" type="video/mp4">
-                                      <source src="video/sintel-short.webm" type="video/webm"> -->
-                                <!-- fallback content here -->
-                            </video>
-                        </div>
+                <div id='HTML5Area'>
+                    <div class="html5player">
+                        <video type="video/mp4" class="video html5video" id="html5src" controls style="outline: none;border: none;height: 320px;width: 100%">
+
+                        </video>
                     </div>
-
-                    <div layout="row" flex layout-align="space-around center">
-                        <md-button onclick="playVideo(roomnum)" class="md-fab md-primary md-raised">
-                            <md-icon style="color:white">play_circle_filled</md-icon>
-                        </md-button>
-
-                        <md-button onclick="syncVideo(roomnum)" class="md-fab md-raised">
-                            <md-icon style="color:black">loop</md-icon>
-                        </md-button>
-
-                        <md-button ng-click="showDialog($event)" class="md-fab md-raised">
-                            <md-icon style="color:black">view_module</md-icon>
-                        </md-button>
-
-                        <md-button onclick="changeHost(roomnum)" class="md-fab md-raised">
-                            <md-icon style="color:black">assignment_ind</md-icon>
-                        </md-button>
-
-                        <md-button onclick="stopVideo(roomnum)" class="md-fab md-warn md-raised">
-                            <md-icon style="color:white">stop</md-icon>
-                        </md-button>
-                    </div>
-
-
-
-
                 </div>
-
 
 
             </md-sidenav>
 
-            <md-content layout-fill="">
+            <md-content layout-fill="" style="overflow: hidden">
 
-                <md-button ng-click="toggleLeft()" class="md-fab md-raised md-fab-top-left" style="position: fixed !important;">
-                    <md-icon style="color:black">airplay</md-icon>
+                <md-button id="sidenavLeftButton" ng-click="toggleLeft()" class="md-fab md-raised md-fab-bottom-left" style="position: fixed !important; display: none" >
+                    <md-icon style="color:black">></md-icon>
                 </md-button>
 
-                <md-button ng-click="toggleRight()" class="md-fab md-raised md-hue-2 md-fab-top-right" style="position: fixed !important;">
-                    <md-icon style="color:black">menu</md-icon>
+                <md-button id="sidenavRightButton" ng-click="toggleRight()" class="md-fab md-primary md-fab-top-right" style="position: fixed !important; z-index: 60">
+                    <md-icon style="color:white"><</md-icon>
                 </md-button>
 
-
-
-
-
+                <!--<md-button ng-if="selectedVideoData" class="md-fab md-fab-bottom-right md-primary" ng-click="loadVideo(selectedVideoData)" style="position: fixed !important; background-color: #689F38" id="playButton" ng-click="playSelectedVideo()">
+                    <md-icon style="color:white">play_arrow</md-icon>
+                </md-button>-->
 
 
                 <div layout-fill="">
-
                     <!-- Page Content -->
                     <div layout-fill="">
-
                         <!-- Loading page -->
                         <!-- Loader is currently dependent on the dailymotion api because it is the slowest -->
                         <div id="loading"></div>
 
                         <!-- User Form (First Page) -->
                         <div id="userFormArea" layout-fill="" layout="row" layout-align="end center">
+
+
+                            <!--<div class="animation-outer-wrapper">
+                                <div class="signal-animation">
+                                    <div class="ripple ripple-6">
+                                        <div class="ripple ripple-5">
+                                            <div class="ripple ripple-4">
+                                                <div class="ripple ripple-3">
+                                                    <div class="ripple ripple-2">
+                                                        <div class="ripple ripple-1">
+                                                            <div class="tower">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+
                             <div >
                                 <!-- ADD DESCRIPTION HERE
                                 <h2>Welcome to Vynchronize</h2>
@@ -139,35 +120,96 @@
                 -->
 
                                 <form id="userForm" >
-                                    <div class="form-group"layout-padding="" >
+                                    <div layout-padding="">
+                                        <md-card layout-padding="" style="width: 550px;" layout="row" layout-align="center center">
 
-
-
-                                        <md-card layout-padding=""  layout="row" layout-align="center center">
-
-                                            <md-button onClick="randomroom()" class="md-warn md-raised">
+                                           <!-- <md-button onClick="randomroom()" class="md-warn md-raised">
                                                 <md-icon style="color:white">sync</md-icon>
-                                            </md-button>
-                                            <input flex=15 class="form-control" id="roomnum" ng-model="roomIDparam" style="text-align: center; font-size: 22px"/>
-                                            <input flex class="form-control" id="username"  style="text-align: right;font-size: 22px"ng-model="deviceParsedData"/>
+                                            </md-button>-->
+                                            <input flex class="form-control" id="username"  style="text-align: right;font-size: 22px; box-shadow:none; outline: none; border:0; border-radius: 0; text-align: center" ng-model="deviceParsedData"/>
 
-                                            <md-button type="submit" class="md-primary md-raised md-raised">
-                                                <md-icon style="color:white">input</md-icon>
+                                            <md-button type="submit" style="background-color: #689F38" class="md-warn md-raised md-raised">
+                                                <!--<md-icon style="color:white">input</md-icon>-->
+                                                >>>
                                             </md-button>
+
+                                            <input flex="15" class="form-control" id="roomnum" ng-model="roomIDparam" style="text-align: center; box-shadow:none; outline: none; border:0; border-radius: 0; font-size: 22px; text-align: center"/>
 
                                         </md-card>
-
-
-
                                     </div>
                                 </form>
                             </div>
                         </div>
 
-                        <div id="roomArea" style="background-color: black !important;" layout-fill="">
+                        <div id="roomArea" style="background-color: black !important; border: none; outline: none; overflow: hidden; margin-bottom: -2px" layout-fill="">
                             <!-- Heading Row -->
-                            <div style="padding-top: 30px !important;">
-                                <div >
+
+                            <md-button ng-click="toggleLeft()" class="md-primary md-fab md-fab-bottom-left md-raised" style="z-index: 70">
+                                <md-icon style="color:white">keyboard_arrow_left</md-icon>
+                            </md-button>
+
+                            <md-button ng-click="toggleRight()" class="md-fab md-fab-bottom-right md-primary md-raised" style="z-index: 70">
+                                <md-icon style="color:white">keyboard_arrow_right</md-icon>
+                            </md-button>
+
+                            <div layout="row">
+
+
+
+                                <div id="playerOpacity"></div>
+
+                                <div id="hostlabel" style="position:absolute;bottom:3px;left:9px; width: 100%; z-index: 5; font-size: 14px;"></div>
+
+
+                                <div layout="column" style="position:absolute;bottom:0;left:0; width: 100%">
+
+                                    <div layout="row" flex layout-align="center center" style="margin-bottom:8px;z-index: 62">
+
+
+                                        <md-button onclick="stopVideo(roomnum)" class="md-fab md-mini md-warn md-raised" style="margin: 5px">
+                                            <md-icon style="color:white">stop</md-icon>
+                                        </md-button>
+
+                                        <md-button ng-click="setLastTime()" class="md-fab md-mini md-raised" style="margin: 5px">
+                                            <md-icon style="color:black">timelapse</md-icon>
+                                        </md-button>
+
+                                        <md-button ng-click="showDialog($event)" class="md-fab md-mini md-raised" style="margin: 5px">
+                                            <md-icon style="color:black">view_module</md-icon>
+                                        </md-button>
+
+                                        <md-button onclick="changeHost(roomnum)" class="md-fab md-mini md-raised" style="margin: 5px;background-color: #689F38">
+                                            <md-icon style="color:black">assignment_ind</md-icon>
+                                        </md-button>
+
+                                        <md-button onclick="syncVideo(roomnum)" class="md-fab md-mini md-raised" style="margin: 5px">
+                                            <md-icon style="color:black">loop</md-icon>
+                                        </md-button>
+
+                                        <!--<md-button ng-click="showVideos()" class="md-fab md-mini md-raised">
+                                            <md-icon style="color:white">format_list_bulleted</md-icon>
+                                        </md-button>-->
+
+
+
+
+                                    </div>
+
+
+                                    <div style="display: none;position: absolute; width: 100%;background-color: rgba(0,0,0,0.5); outline: none; border: 0;" flex layout="row">
+                                        <md-slider ng-change="sliderOpacityChanged(videoOpacity)" flex min="0" max="100" class="md-warn" ng-model="videoOpacity" aria-label="videoOpacity" >
+                                    </div>
+
+
+
+
+                                </div>
+
+                            </div>
+
+
+
+                                    <div id="playlistsNetwork" style="outline: none; width: 100%; height: 100%; border: none; margin-bottom: -2px"></div>
 
                                     <!--<div style="margin: 10px" class="dropdown">
                                         <button style="background-color: #007bff" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -205,22 +247,7 @@
 
 
                                     <!-- Div for lights off! -->
-                                  <br><br><br>
 
-                                    <div id="hostlabel"></div>
-                                    <div class="topbotmargins">
-                                        <input type="Video" style="max-width: 200px; margin-right: .5rem; margin-bottom: .5rem; float: left;" class="form-control" id="inputVideoId" placeholder="Video ID / URL" value="/pd.mp4">
-                                    </div>
-                                    <div>
-                                        <!-- <a class="ghost-button-full-color"><i class="far fa-times-circle"></i></a> -->
-                                        <md-button id="changeButton" onclick="changeVideoParse(roomnum)" class="md-primary"><i class="fas fa-exchange-alt"></i></md-button>
-                                        <!--
-                                                                <button id="previousButton" onclick="prevVideo(roomnum)" class="btn btn-primary"><i class="fas fa-step-backward"></i></button>
-                                        -->
-
-                                        <br/>
-
-                                    </div>
                                     <!-- <input type="file" id="html5-input" /> -->
                                     <!-- Playlist shit
                                     <div id="visual-queue" class="vid-list-container">
@@ -238,8 +265,6 @@
                                     <!-- <input type="Video" style="max-width: 200px; margin-right: .5rem; margin-bottom: .5rem; float: left;" class="form-control" id="inputVideoURL" placeholder="Direct URL to .mp4/.webm"> -->
 
                                     <!-- <p style="display: none" id="html5-message" class="lead">Video File Upload Not Yet Supported</p> -->
-
-
 
                                 </div>
 
@@ -282,7 +307,6 @@
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                     <!-- </div> -->
@@ -309,12 +333,8 @@
                                     </div>-->
                                 </div>
                                 <!-- /.col-md-4 -->
-                            </div>
-
                             <!-- /.row -->
-
                             <!-- Call to Action Well -->
-
                             <!-- Content Row -->
                             <!-- <div class="row">
                         <div class="col-md-4 mb-4">
@@ -353,14 +373,9 @@
                           </div>
                         </div> -->
                             <!-- /.col-md-4 -->
-
                             <!-- </div> -->
                             <!-- /.row -->
-
                             <!-- <hr style="height:20pt; visibility:hidden;" /> -->
-
-
-                        </div>
                     </div>
                     <!-- /.container -->
 
@@ -371,35 +386,152 @@
                         </div>
                         <!-- /.container -->
                     </footer>
-
                 </div>
-
-
-
-
-
-
-
-
             </md-content>
 
-            <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" style="width: 640px">
+            <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="right" style="max-width: 500px; width: 500px !important;">
+                <md-tabs class="md-primary" layout-fill="" md-center-tabs style="border-radius: 0" md-selected="selectedTabIndex">
+                    <md-tab label="Info" layout="column">
+                        <div layout-fill="">
+                            <div layout-padding="" layout="column">
 
-                <md-list-item class="md-2-line" ng-repeat="video in videosData">
-                    <div class="md-list-item-text">
-                        <h3>({{video._id}}) - {{video.title}}</h3>
-                        <p>
-                            {{note.content}}
-                        </p>
-                    </div>
-                </md-list-item>
+                                <md-button class="md-fab md-fab-top-right md-primary" style="position: fixed !important;" id="changeButton" onclick="changeVideoParse(roomnum)">
+                                    <md-icon style="color:white">loop</md-icon>
+                                </md-button>
 
+                                <div layout-padding="" layout="column">
+                                    <md-input-container flex style="margin-bottom: 0; margin-top: 18px">
+                                        <label>Video ID / URL</label>
+                                        <input id="inputVideoId" value="/pd.mp4"/>
+                                    </md-input-container>
+
+                                    <md-input-container flex style="margin-bottom: -18px; margin-top: 9px">
+                                        <label>Database IP</label>
+                                        <input disabled ng-model="ipDataAdress"/>
+                                    </md-input-container>
+                                </div>
+
+                                <div id='HTML5Area2'>
+                                    <md-button class="md-raised" ng-click="loadRoom23()">load room 23</md-button>
+                                    <div class="html5player2">
+                                        <video type="video/mp4" width="720" class="video html5video" id="html5src2" controls style="outline: none; border: none; width: 100%;height: 240px">
+                                            <!-- <source src="nl.mp4" type="video/mp4">
+                                                  <source src="video/sintel-short.webm" type="video/webm"> -->
+                                            <!-- fallback content here -->
+                                        </video>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div layout="row" style="height: 90px; width: 100%;" >
+                                    <img src='{{"http://" + ipDataAdress + ":3000/uploads/" + selectedVideoData.youtubeID + ".png"}}' width="90" height="90" style="border-radius: 9px; margin-right: 18px"/>
+                                    <md-chips flex ng-model="selectedVideoData.youtubeTags" style="height: 90px; outline: none;" md-removable="false" readonly="true"></md-chips>
+                                </div>
+                            </div>
+
+                            <div id="song"></div>
+
+
+                            <!--
+                                                        <button id="previousButton" onclick="prevVideo(roomnum)" class="btn btn-primary"><i class="fas fa-step-backward"></i></button>
+                                -->
+
+                        </div>
+                    </md-tab>
+
+                    <md-tab label="Playlist" layout-fill="">
+                        <md-list layout-fill="">
+                            <md-input-container style="margin-bottom: 0; margin-left: 9px; width: 94%;">
+                                <label>Search</label>
+                                <input ng-model="searchPlaylist"/>
+                            </md-input-container>
+                            <md-list-item class="md-2-line" ng-class="{ 'nav-active': playlistIdToEdit === playlist._id }" ng-click="changePlaylist(playlist._id)" ng-repeat="playlist in playlistListData | orderBy: '-createdAt' | filter: searchPlaylist">
+                                <div class="md-list-item-text">
+                                    <h3>{{playlist.title}}</h3>
+                                    <p>
+
+                                    </p>
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                    </md-tab>
+
+                    <md-tab label="Movies" layout-fill="">
+                        <md-list style="padding: 0">
+                            <md-input-container style="margin-bottom: -16px; margin-top: 26px; margin-left: 12px; width: 94%;">
+                                <label>Search</label>
+                                <input ng-model="searchMovies"/>
+                            </md-input-container>
+
+                            <md-list-item class="md-2-line" ng-repeat="movie in moviesListData | orderBy: '-createdAt' | filter: searchMovies" ng-click="loadMovie(movie)">
+                                <div class="md-list-item-text">
+                                    <h3>{{movie.title}} ({{movie.year}})</h3>
+                                    <p>{{movie.genre}} {{movie.duration}}</p>
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                    </md-tab>
+
+                    <md-tab label="Effects" layout-fill="">
+                        <div layout-fill="" >
+                            <md-list layout-fill="">
+                                <md-input-container style="margin-bottom: -10px; margin-left: 9px; width: 94%;">
+                                    <label>Search effects</label>
+                                    <input ng-model="searchEffects"/>
+                                </md-input-container>
+
+                                <md-list-item class="md-3-line" ng-click="loadEffect(video)" ng-repeat="video in effectsListData | orderBy: 'createdAt' | filter: searchEffects" >
+                                    <div class="md-list-item-text" layout="row" style="height: 90px; margin-bottom: 8px; margin-top: 8px;">
+                                        <img src="{{video.image}}" width="90" height="90" style="margin-right: 10px; border-radius: 9px"/>
+                                        <div layout="column">
+                                            <h3 style="margin-top: 6px"> {{video.genre}} </h3>
+                                            <md-chips id="effects-list" flex ng-model="video.tags" style="height: 90px; outline: none; margin-top: 6px" md-removable="false" readonly="true"></md-chips>
+
+
+<!--
+                                            <span style="position: absolute; bottom: 5px; right: 7px" ng-hide="video.lastTimePlayed === '0'"> {{video.dateNow | amDurationFormat: 'seconds'}} ago</span>
+-->
+
+
+
+                                        </div>
+                                    </div>
+                                </md-list-item>
+                            </md-list>
+                        </div>
+                    </md-tab>
+
+                    <!--<md-tab label="Played" layout="column">
+                        <div layout-fill="" style="margin-top: 8px">
+
+                            <md-list-item class="md-3-line" ng-click="loadVideo(video)" ng-repeat="video in videosData | orderBy: 'dateNow'" ng-if="video.dateNowParsed < video.oneDayInSeconds" ng-hide="video.lastTimePlayed === '0'">
+                            <div class="md-list-item-text" layout="row" style="height: 90px; margin-bottom: 8px; margin-top: 8px;">
+                                <img src="{{video.image}}" width="90" height="90" style="margin-right: 10px; border-radius: 9px"/>
+                                <div layout="row">
+                                    <md-chips id="effects-list-2" flex ng-model="video.tags" style="height: 90px; outline: none" md-removable="false" readonly="true"></md-chips>
+
+
+
+                                </div>
+                            </div>
+                            </md-list-item>
+
+                        </div>
+                    </md-tab>-->
+
+
+                </md-tabs>
             </md-sidenav>
-
-        </section>
-
+        </div>
     </div>
 
+
+
+<!-- JQuery -->
+<script src="/js/dependencies/jquery.min.js"></script>
+<!-- Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
 
 
 
@@ -410,9 +542,6 @@
         video.addEventListener("timeupdate", function(){
             //console.log(this.currentTime);
         });
-
-
-
 
         var socket = io.connect();
         var roomnum = 1
@@ -428,6 +557,8 @@
             var $chat = $('#chat');
             var $roomArea = $('#roomArea');
             var $userFormArea = $('#userFormArea');
+            var $sidenavLeftButton = $('#sidenavLeftButton');
+            var $sidenavRightButton = $('#sidenavRightButton');
             var $userForm = $('#userForm');
             var $users = $('#users');
             var $username = $('#username');
@@ -448,6 +579,8 @@
             //     }
             // });
 
+            document.getElementById("sidenavLeftButton").style.display = "none";
+            document.getElementById("sidenavRightButton").style.display = "none";
 
             $messageForm.submit(function(e) {
                 e.preventDefault();
@@ -527,6 +660,10 @@
                             $userFormArea.hide();
                             $roomArea.show();
 
+                            document.getElementById("sidenavLeftButton").style.display = "none";
+                            document.getElementById("sidenavRightButton").style.display = "none";
+
+
                             // No longer using initarea
                             // var initStuff = document.getElementById("initArea")
                             // initStuff.innerHTML = ""
@@ -547,6 +684,8 @@
                             console.log("Host is syncing the new socket!")
                             syncVideo(roomnum)
                         }
+
+
                     });
 
                     $username.val('');
@@ -631,7 +770,6 @@
             })
         }
 
-
         // Turn off the lights!
         var per = 0;
         $(document).ready(function() {
@@ -715,6 +853,7 @@
     <!-- Plugin JavaScript -->
     <script src="js/dependencies/jquery.easing.min.js"></script>
 
+    <script src="js/dependencies/vis.js"></script>
 
     <script src="js/dependencies/angular.min.js"></script>
     <script src="js/dependencies/angular-animate.min.js"></script>
@@ -722,7 +861,10 @@
     <script src="js/dependencies/angular-messages.min.js"></script>
     <script src="js/dependencies/angular-resource.min.js"></script>
     <script src="js/dependencies/angular-material.min.js"></script>
+    <script src="js/dependencies/moment.min.js"></script>
+    <script src="js/dependencies/angular-moment.min.js"></script>
     <script src="js/dependencies/ua-parser.min.js"></script>
+    <script src="js/dependencies/ng-droplet.min.js"></script>
 
     <script src="js/controlApp.js"></script>
     <!-- My JS files -->
@@ -732,17 +874,15 @@
     <script src="js/events.js"></script>
     <script src="js/notify.js"></script>
 
-    <!-- Youtube -->
+    <!-- Youtube
     <script src="js/yt.js"></script>
-    <!-- Daily Motion -->
+    &lt;!&ndash; Daily Motion &ndash;&gt;
     <script src="https://api.dmcdn.net/all.js"></script>
     <script src="js/dm.js"></script>
-    <!-- Vimeo -->
+    &lt;!&ndash; Vimeo &ndash;&gt;
     <script src="https://player.vimeo.com/api/player.js"></script>
-    <script src="js/vimeo.js"></script>
+    <script src="js/vimeo.js"></script>-->
     <!-- HTML5 Player -->
     <script src="js/html5.js"></script>
-
 </body>
-
 </html>

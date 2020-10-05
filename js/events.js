@@ -78,7 +78,7 @@ socket.on('justPause', function(data) {
             media.pause()
             break;
     }
-    player.pauseVideo()
+
 });
 
 function seekOther(roomnum, currTime) {

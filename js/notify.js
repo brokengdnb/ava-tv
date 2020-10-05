@@ -145,7 +145,7 @@ function disconnectedAlert() {
         message: "Out of sync!"
     }, {
         type: 'danger',
-        delay: 5000,
+        delay: 500,
         animate: {
             enter: 'animated fadeInUp',
             exit: 'animated fadeOutRight'

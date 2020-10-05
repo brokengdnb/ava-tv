@@ -1,5 +1,17 @@
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/iconfont/MaterialIcons-Regular.eot'); /* For IE6-8 */
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url('/iconfont/MaterialIcons-Regular.woff2') format('woff2'),
+    url('/iconfont/MaterialIcons-Regular.woff') format('woff'),
+    url('/iconfont/MaterialIcons-Regular.ttf') format('truetype');
+}
+
 #loading {
-    display: block;
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -10,3 +22,109 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+
+
+#userFormArea {
+    background-color: black;
+}
+
+
+#effects-list.md-default-theme .md-chips, #effects-list .md-chips {
+    box-shadow: 0 0px rgba(0,0,0,0);
+}
+
+#song {
+    margin-top: 16px;
+}
+
+#video-player, #audio-player {
+    width: 100%;
+}
+
+
+
+
+/*
+
+.animation-outer-wrapper {
+    width: 100vh;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+
+.tower {
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.signal-animation .ripple {
+    border: 1px solid lime;
+    border-top: 2px solid lime;
+    padding: 20px;
+    border-radius: 50%;
+    animation: ripple 3s linear infinite;
+}
+
+@keyframes ripple {
+    from {
+        transform: scale(0.1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.0);
+        opacity: 0;
+    }
+}
+
+.ripple-1 {
+    animation-delay: 2.75s;
+}
+
+.ripple-2 {
+    animation-delay: 2.5s;
+}
+
+.ripple-3 {
+    animation-delay: 2s;
+}
+
+.ripple-4 {
+    animation-delay: 1.75s;
+}
+
+.ripple-5 {
+    animation-delay: 1.25s;
+}
+
+.ripple-6 {
+    animation-delay: 1s;
+}
+
+
+*/
+
+#preVideo-fuck {
+    width: 100%;
+    text-align: center;
+
+}
+#preVideo-player, #preAudio-player  {
+    max-width: 280px
+}
+#hostlabel {
+    width: 100%;
+    text-align: left;
+    position: absolute;
+    z-index: 99;
+    top:-1;
+    font-size: 12px;
+    color: white;
+}
+

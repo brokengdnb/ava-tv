@@ -1,0 +1,48 @@
+<md-dialog aria-label="Dialog" layout-fill="">
+
+   <!-- <img src="/images/toc.gif" width="256" style="width: 100%"/>
+-->
+
+<section layout-padding="">
+   <div layout="row" layout-align="center" layout-wrap>
+
+      <md-button ng-click="cancel()" class="md-fab md-fab-top-right md-warn md-raised" aria-label="close" style="position: fixed !important;">
+         <md-icon style="color: white">close</md-icon>
+      </md-button>
+
+      <md-button ng-click="save()" class="md-fab md-fab-bottom-right md-raised md-primary md-raised" aria-label="save" style="position: fixed !important;">
+         <md-icon style="color: white">save</md-icon>
+      </md-button>
+
+      <div>
+         <div layout="row" flex style="margin-top: 69px">
+            <md-input-container flex>
+               <label>Artist</label>
+               <input ng-model="data.youtubeArtist" ng-disabled="disableInputs"/>
+            </md-input-container>
+            <md-input-container flex>
+               <label>Title</label>
+               <input ng-model="data.youtubeTitle" ng-disabled="disableInputs"/>
+            </md-input-container>
+            <md-input-container flex>
+               <label>Genre</label>
+               <input ng-model="data.youtubeGenre" ng-disabled="disableInputs"/>
+            </md-input-container>
+            <md-input-container flex>
+               <label>Album</label>
+               <input ng-model="data.youtubeAlbum" ng-disabled="disableInputs"/>
+            </md-input-container>
+
+         </div>
+
+        <!-- <md-chips flex placeholder="Tags" ng-model="datax.youtubeTags"></md-chips>
+-->
+
+
+      </div>
+   </div>
+
+</section>
+
+
+</md-dialog>

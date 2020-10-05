@@ -11,15 +11,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/angular-material.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="assets/material-design-icons/iconfont/material-icons.css" rel="stylesheet">
 
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <!-- Socket.io -->
-    <script src="/socket.io/socket.io.js"></script>
-
-    <!-- Font awesome -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
     <!-- Custom styles for this template -->
     <link href="css/small-business.css" rel="stylesheet">
@@ -47,7 +40,30 @@
 
         <!-- User Form (First Page) -->
         <div id="userFormArea" layout-fill="" layout="row" layout-align="center top">
-            <md-card md-whiteframe="10" style="height: 335px; background-color: rgba(255,255,255,0.4)">
+
+           <!-- <div class="animation-outer-wrapper">
+                <img src="/img/room23.png" style="position: absolute; width: 280px; bottom: -19px; left: 22px;"/>
+                <div class="signal-animation">
+                    <div class="ripple ripple-6">
+                        <div class="ripple ripple-5">
+                            <div class="ripple ripple-4">
+                                <div class="ripple ripple-3">
+                                    <div class="ripple ripple-2">
+                                        <div class="ripple ripple-1">
+                                            <div class="tower">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <video src="/assets/ekko.mp4" style="position: absolute; width: 100%; z-index: 1" autoplay controls="false"></video>
+
+            <md-card md-whiteframe="10" style="height: 335px; background-color: rgba(255,255,255,0.4); z-index: 66">
                <!-- <md-toolbar>
                     <div class="md-toolbar-tools">
                         <h2 flex md-truncate>Connect</h2>
@@ -61,37 +77,64 @@
                 </md-toolbar>-->
 
 
-                <form id="userForm">
+                <form id="userForm" style="width: min-content;">
                     <div layout-padding="">
                         <div id="qrWrap" style="width:100%;text-align:center; margin-bottom:7px;margin-top:6px;">
                             <qr size="200" md-whiteframe="10" text="QRurl" image="true" input-mode="QRurl"></qr>
                         </div>
 
-                        <div layout-padding="" style="width: 380px;" layout="row">
-                            <input flex="15" style="box-shadow:none; outline: none; border:0; border-radius: 0; background-color: rgba(0,0,0,0.4); text-align: center; color:white" class="form-control" id="roomnum" ng-model="idRoom" ng-change="idInputChange(this)" style="text-align: center"/>
+                        <div layout-padding="" layout="row">
                             <input flex="35" style="box-shadow:none; outline: none; border:0; border-radius: 0; background-color: rgba(0,0,0,0.4); text-align: center; color:white" class="form-control" ng-model="ipServer" ng-change="ipInputChange(this)" style="text-align: center"/>
+                            <input flex="15" ng-click="randomRoom()" style="cursor: wait; box-shadow:none; outline: none; border:0; border-radius: 0; background-color: rgba(0,0,0,0.4); text-align: center; color:white" class="form-control" id="roomnum" ng-model="idRoom" ng-change="idInputChange(this)" style="text-align: center"/>
                             <input flex style="box-shadow:none; outline: none; border:0; border-radius: 0; background-color: rgba(0,0,0,0.4); text-align: center; color:white" class="form-control" id="username" ng-model="deviceParsedData"  style="text-align: right"/>
+                        </div>
+
+                        <div layout="row" layout-align="center center">
+                            <md-button class="md-fab md-raised " ng-click="openDatabase()"><md-tooltip>Database</md-tooltip><md-icon style="color:black">storage</md-icon></md-button>
+                            <md-button class="md-fab md-raised "><md-tooltip>USB & MIDI</md-tooltip><md-icon style="color:black">usb</md-icon></md-button>
+                            <md-button class="md-fab md-raised md-primary" ng-click="room23()"><md-tooltip>Room 23</md-tooltip><md-icon style="color:white">home</md-icon></md-button>
+                            <md-button class="md-fab md-raised " ng-click="openInNewTab()"><md-tooltip>Control {{idRoom}}</md-tooltip><md-icon style="color:black">devices_other</md-icon></md-button>
+                            <md-button md-whiteframe="10" class="md-fab md-raised" type="submit" style="background-color: #689F38;"><md-tooltip>Start</md-tooltip><md-icon style="color:white">cast_connected</md-icon></md-button>
+                        </div>
                     </div>
 
-                    <div layout="row" layout-align="space-between center">
-                        <md-button md-whiteframe="10" class="md-warn md-raised md-fab " type="button" ng-click="randomRoom()"><md-icon style="color:white">autorenew</md-icon></md-button>
-                        <md-button md-whiteframe="10" class="md-fab md-raised " type="submit"><md-icon style="color:black">all_out</md-icon></md-button>
+                    <!--<div layout="row" flex style="margin-top: -42px;z-index: 99; height: 180px; opacity: 1;">
 
-                    </div>
+                        <md-card layout="column" flex>
 
+                        </md-card>
                     </div>
+                    <md-card>
+
+                    </md-card>-->
+
                 </form>
             </md-card>
+
         </div>
 
         <div id="roomArea">
             <!-- Heading Row -->
             <div id="html5srcWrap" layout="row" layout-align="center center" layout-fill="">
-                <md-button md-whiteframe="10" class="md-primary md-hue-2 md-fab md-mini md-fab-top-right" ng-click="toggleFullScreen()" ng-class="{'md-warn': activeFullScreen, 'fullscreen-exit-background':activeFullScreen}" style="position: fixed !important;z-index:999;margin-right: -27px;margin-top: -25px;">
+                <md-button md-whiteframe="10" class="md-primary md-hue-2 md-fab md-mini md-fab-top-right" ng-click="toggleFullScreen()" ng-class="{'md-warn': activeFullScreen, 'fullscreen-exit-background':activeFullScreen}" style="position: fixed !important;z-index:999;margin-right: -27px;margin-top: -27px;">
                     <md-icon id="fullScreen" style="color:white">fullscreen</md-icon>
                 </md-button>
 
-                <video src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" id="html5src" muted>
+                <md-button md-whiteframe="10" onclick="changeHost(roomnum)" class="md-fab md-mini md-fab-bottom-left md-raised" ng-class="{'': activeFullScreen, 'fullscreen-exit-background2':activeFullScreen}" style="position: fixed !important;z-index:999;margin-left: -27px;margin-bottom: -26px;">
+                    <md-icon style="color:black">assignment_ind</md-icon>
+                </md-button>
+
+                <md-button md-whiteframe="10" onclick="syncVideo(roomnum)" class="md-fab md-mini md-fab-bottom-right md-raised" ng-class="{'': activeFullScreen, 'fullscreen-exit-background2':activeFullScreen}" style="position: fixed !important;z-index:999;margin-right: -27px;margin-bottom: -25px;">
+                    <md-icon style="color:black">loop</md-icon>
+                </md-button>
+
+                <md-button md-whiteframe="10" ng-click="showQR($event)" class="md-fab md-mini md-fab-top-left md-raised" ng-class="{'': activeFullScreen, 'fullscreen-exit-background2':activeFullScreen}" style="position: fixed !important;z-index:999;margin-left: -27px;margin-top: -27px;">
+                    <md-icon style="color:black">local_see</md-icon>
+                </md-button>
+
+                <div id="playerOpacity" layout-fill="" style="position: absolute;z-index: 99;background-color:black;"></div>
+
+                <video src="/pd.mp4" id="html5src" muted>
                     <!-- <source src="video/sintel-short.mp4" type="video/mp4">
                     <source src="video/sintel-short.webm" type="video/webm"> -->
                     <!-- fallback content here -->
@@ -130,6 +173,7 @@
 
                     <div id='playerArea'>
                         <div class="video" id="player"></div>
+
                         <!-- <iframe class="video" id="player" allowfullscreen="0" rel="0" width="640" height="360" src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1" frameborder="1" style="border: solid 4px #37474F"></iframe> -->
                     </div>
                     <div id='dailyArea'>
@@ -329,6 +373,15 @@
     <!-- /.container -->
 
 
+    <!-- JQuery -->
+    <script src="/js/dependencies/jquery.min.js"></script>
+    <!-- Socket.io -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Font awesome
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+-->
+
     <script>
 
 
@@ -366,6 +419,20 @@
             //     }
             // });
 
+            var playerOpacity = $('#playerOpacity');
+
+          /*  socket.on("connect", function() {
+                socket.on('level', function(data) {
+                    console.info(data.level.level/100);
+
+                    $('#playerOpacity').css('opacity', (data.level.level/100).toFixed(0));
+                });
+            });*/
+
+
+
+
+
 
             $messageForm.submit(function(e) {
                 e.preventDefault();
@@ -373,6 +440,8 @@
                 socket.emit('send message', $message.val());
                 $message.val('');
             });
+
+
 
             socket.on('new message', function(data) {
                 var last_div = $('.chat > div:last')[0]
@@ -446,12 +515,12 @@
                             $roomArea.show();
 
                             // Move footer to correct position
-                            document.getElementById('footer').style.position = 'relative';
+                            //document.getElementById('footer').style.position = 'relative';
 
                             // Show header buttons!
-                            document.getElementById('chat-nav').style.display = 'block';
-                            document.getElementById('about-nav').style.display = 'block';
-                            document.getElementById('contact-nav').style.display = 'block';
+                            //document.getElementById('chat-nav').style.display = 'block';
+                            //document.getElementById('about-nav').style.display = 'block';
+                            //document.getElementById('contact-nav').style.display = 'block';
 
                             // No longer using initarea
                             // var initStuff = document.getElementById("initArea")
@@ -464,7 +533,7 @@
 
                             // Sets the invite link (roomnum)
                             // document.getElementById('invite').innerHTML = "vynchronize.herokuapp.com/" + roomnum
-                            document.getElementById("inv_input").value = "vynchronize.herokuapp.com/" + roomnum
+                            //document.getElementById("inv_input").value = "vynchronize.herokuapp.com/" + roomnum
                         }
                     });
                     // Join room
@@ -479,6 +548,9 @@
                     $username.val('');
                 }
             });
+
+
+
 
             socket.on('get users', function(data) {
                 var html = '';
@@ -611,7 +683,7 @@
         function copyInvite() {
             /* Get the text field */
             var copyText = document.getElementById("inv_input");
-            console.log(copyText)
+            console.log(copyText);
             /* Select the text field */
             copyText.select();
             /* Copy the text inside the text field */
@@ -646,14 +718,14 @@
     <script src="js/events.js"></script>
     <script src="js/notify.js"></script>
 
-    <!-- Youtube -->
+<!--    &lt;!&ndash; Youtube &ndash;&gt;
     <script src="js/yt.js"></script>
-    <!-- Daily Motion -->
+    &lt;!&ndash; Daily Motion &ndash;&gt;
     <script src="https://api.dmcdn.net/all.js"></script>
     <script src="js/dm-p.js"></script>
-    <!-- Vimeo -->
+    &lt;!&ndash; Vimeo &ndash;&gt;
     <script src="https://player.vimeo.com/api/player.js"></script>
-    <script src="js/vimeo.js"></script>
+    <script src="js/vimeo.js"></script>-->
     <!-- HTML5 Player -->
     <script src="js/html5.js"></script>
 
