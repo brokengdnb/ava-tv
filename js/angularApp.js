@@ -3,17 +3,20 @@ angular.module('projectorApp', ['ngMaterial', 'ngMessages','ja.qr'])
         $scope.idRoom = '23';
         $scope.QRurl = '';
 
+
+        $scope.ipInputChange = function(newData) {
+            // qr code is changing on a go by IP address of a server and ID of a room
+            $scope.QRurl = "http://" + newData.ipServer + "/" + $scope.idRoom;
+        };
+
         $scope.idInputChange = function(newData) {
             $http.get('/localIP').then(function(data) {
-                // you can do some processing here
+                // qr code is changing on a go by IP address of a server and ID of a room
                 $scope.QRurl = "http://" + data.data.local + "/" + newData.idRoom;
             });
         };
 
-        $scope.ipInputChange = function(newData) {
-                // you can do some processing here
-                $scope.QRurl = "http://" + newData.ipServer + "/" + $scope.idRoom;
-        };
+
 
         $scope.openInNewTab = function() {
           var win = window.open($scope.QRurl, '_blank');

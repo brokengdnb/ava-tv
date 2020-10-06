@@ -874,7 +874,7 @@ angular.module('controlApp', ['ngMaterial', 'ngMessages', 'ngResource', 'angular
             // you can do some processing here
             $scope.ipServer = data.data.local;
 
-            var urlParam = window.location.pathname;
+            let urlParam = window.location.pathname;
             $scope.roomIDparam = urlParam.substr(1);
 
             // console.warn($scope.roomIDparam);
